@@ -64,12 +64,14 @@ class FoodTrucks extends React.Component {
                 <Grid alignItems='center' container spacing={2}>
                     {
                         filteredFoodTrucks.map((foodTruck, index) =>
-                            <FoodTruck
-                                key={index}
-                                foodTruck={foodTruck}
-                                distance={this.calcDistance(foodTruck, position)}
-                                position={position}
-                            />
+                            <Grid item md={12} lg={4} xl={3}>
+                                <FoodTruck
+                                    key={index}
+                                    foodTruck={foodTruck}
+                                    distance={this.calcDistance(foodTruck, position)}
+                                    position={position}
+                                />
+                            </Grid>
                         )
                     }
                 </Grid>

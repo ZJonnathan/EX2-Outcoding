@@ -11,9 +11,14 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Paper from '@material-ui/core/Paper'
 import Box from '@material-ui/core/Box'
 import FoodTrucks from './FoodTrucks'
+import { styled } from '@material-ui/core/styles'
 
 const statuses = ['ALL', 'REQUESTED', 'APPROVED', 'EXPIRED']
 
+const StyledPaper = styled(Paper)({
+    padding: '30px',
+});
+  
 class Wrapper extends React.Component {
     constructor(props) {
         super()
@@ -74,7 +79,10 @@ class Wrapper extends React.Component {
             )
         } else if (promiseStatus === 'ok'){
             return (
-                <Container maxWidth={false} style={{height: '100vh'}}>
+                <Container
+                    maxWidth={false}
+                    style={{height: '100vh'}}
+                >
                     <Grid
                         alignItems='center'
                         container
@@ -82,7 +90,7 @@ class Wrapper extends React.Component {
                         style={{height: '100vh'}}
                     >
                         <Grid item>
-                            <Paper elevation={5}>
+                            <StyledPaper elevation={5}>
                                 <Grid
                                     container
                                     direction='column'
@@ -145,7 +153,7 @@ class Wrapper extends React.Component {
                                         </Button>
                                     </Grid>
                                 </Grid>
-                            </Paper>
+                            </StyledPaper>
                         </Grid>
                         <Grid item xs style={{height: '100vh'}}>
                             <Box
@@ -168,4 +176,4 @@ class Wrapper extends React.Component {
     }
 }
 
-export default Wrapper;
+export default Wrapper
