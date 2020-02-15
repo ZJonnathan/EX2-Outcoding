@@ -18,6 +18,10 @@ const statuses = ['ALL', 'REQUESTED', 'APPROVED', 'EXPIRED']
 const StyledPaper = styled(Paper)({
     padding: '30px',
 });
+
+const StyledGrid = styled(Grid)({
+    height: '100vh',
+});
   
 class Wrapper extends React.Component {
     constructor(props) {
@@ -74,20 +78,16 @@ class Wrapper extends React.Component {
         if(promiseStatus === 'pending'){
             return (
                 <Typography>
-                    Retrieving location
+                    Retrieving data
                 </Typography>
             )
         } else if (promiseStatus === 'ok'){
             return (
-                <Container
-                    maxWidth={false}
-                    style={{height: '100vh'}}
-                >
+                <Container maxWidth={false}>
                     <Grid
                         alignItems='center'
                         container
                         spacing={2}
-                        style={{height: '100vh'}}
                     >
                         <Grid item>
                             <StyledPaper elevation={5}>
@@ -155,7 +155,7 @@ class Wrapper extends React.Component {
                                 </Grid>
                             </StyledPaper>
                         </Grid>
-                        <Grid item xs style={{height: '100vh'}}>
+                        <StyledGrid item xs >
                             <Box
                                 overflow='auto'
                                 height='100%'
@@ -168,7 +168,7 @@ class Wrapper extends React.Component {
                                     position={{ latitude, longitude }}
                                 />
                             </Box>
-                        </Grid>
+                        </StyledGrid>
                     </Grid>
                 </Container>
             );
