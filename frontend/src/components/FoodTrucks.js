@@ -2,14 +2,16 @@ import React from 'react';
 import axios from 'axios';
 import Container from '@material-ui/core/Container'
 import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 import FoodTruck from './FoodTruck'
-import { Typography } from '@material-ui/core';
+import PropTypes from 'prop-types'
 
 class FoodTrucks extends React.Component {
-    constructor(props) {
+    constructor() {
         super()
         this.state = {
             foodTrucks: [],
+            promiseStatus: 'pending'
         }
     }
 
@@ -18,6 +20,7 @@ class FoodTrucks extends React.Component {
         .then(res => {
             this.setState({
                 foodTrucks: res.data,
+                promiseStatus: 'ok'
             })
         })
         .catch(err => {
@@ -31,7 +34,7 @@ class FoodTrucks extends React.Component {
 
     render() {
         const { foodTrucksNerby, position, quickSearch, status } = this.props
-        const { foodTrucks } = this.state
+        const { foodTrucks, promiseStatus } = this.state
         let filteredFoodTrucks = foodTrucks.slice()
         filteredFoodTrucks
         .sort((foodTruck1, foodTruck2) => {
@@ -41,7 +44,19 @@ class FoodTrucks extends React.Component {
         })
         filteredFoodTrucks = filteredFoodTrucks.filter(foodTruck => (JSON.stringify(foodTruck)).includes(quickSearch))
         
-
+        if(promiseStatus === 'pending') {
+            return (
+                <Container>
+                    <Grid justify='center' container spacing={2}>
+                        <Grid item>
+                            <Typography>
+                                We are retrieving data
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </Container>
+            )
+        }
         if(status !== 'ALL'){
             filteredFoodTrucks = filteredFoodTrucks.filter(foodTruck => foodTruck.Status === status)    
         }
@@ -64,11 +79,10 @@ class FoodTrucks extends React.Component {
                 <Grid alignItems='center' container spacing={2}>
                     {
                         filteredFoodTrucks.map((foodTruck, index) =>
-                            <Grid item md={12} lg={4} xl={3}>
+                            <Grid item md={12} lg={4} xl={3} key={index}>
                                 <FoodTruck
                                     key={index}
                                     foodTruck={foodTruck}
-                                    distance={this.calcDistance(foodTruck, position)}
                                     position={position}
                                 />
                             </Grid>
@@ -78,6 +92,16 @@ class FoodTrucks extends React.Component {
             </Container>
         );
     }
+}
+
+FoodTrucks.propTypes = {
+    foodTrucksNerby: PropTypes.number.isRequired,
+    position: PropTypes.shape({
+        latitude: PropTypes.number,
+        longitude: PropTypes.number
+    }).isRequired,
+    quickSearch: PropTypes.string,
+    status: PropTypes.oneOf(['ALL', 'REQUESTED', 'APPROVED', 'EXPIRED']).isRequired
 }
 
 export default FoodTrucks;

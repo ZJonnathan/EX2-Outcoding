@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper'
 import Divider from '@material-ui/core/Divider'
 import Typography from '@material-ui/core/Typography'
 import { styled } from '@material-ui/core/styles';
+import PropTypes from 'prop-types'
 
 const keyMap = {
     locationid: "Location ID: ",
@@ -14,12 +15,11 @@ const keyMap = {
     Address: "Addres: ",
     permit: "Permit: ",
     FoodItems: "Food Items: ",
-    
 }
 
 const StyledPaper = styled(Paper)({
     padding: '30px',
-  });
+});
 
 class FoodTrucks extends React.Component {
     render() {
@@ -66,6 +66,14 @@ class FoodTrucks extends React.Component {
             </StyledPaper>
         );
     }
+}
+
+FoodTrucks.propTypes = {
+    foodTruck: PropTypes.object.isRequired,
+    position: PropTypes.shape({
+        latitude: PropTypes.number,
+        longitude: PropTypes.number
+    }).isRequired,
 }
 
 export default FoodTrucks;

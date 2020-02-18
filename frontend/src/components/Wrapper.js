@@ -39,10 +39,10 @@ class Wrapper extends React.Component {
     }
 
     componentDidMount(){
-        this.setCurrentLatitude()
+        this.setCurrentLocation()
     }
 
-    setCurrentLatitude = () => {
+    setCurrentLocation = () => {
         const location = window.navigator.geolocation
         location.getCurrentPosition(pos => {
             this.setState({
@@ -53,9 +53,13 @@ class Wrapper extends React.Component {
         })
     }
 
-    onChangeTextField = (event, key) => {
+    onChangeTextField = (event, key, type) => {
+        let value = event.target.value
+        if (type === 'number') {
+            value = value === "" ? 0 : parseFloat(value)
+        }
         this.setState({
-            [key]: event.target.value
+            [key]: value
         })
     }
 
@@ -78,7 +82,7 @@ class Wrapper extends React.Component {
         if(promiseStatus === 'pending'){
             return (
                 <Typography>
-                    Retrieving data
+                    Retrieving current location...
                 </Typography>
             )
         } else if (promiseStatus === 'ok'){
@@ -98,15 +102,16 @@ class Wrapper extends React.Component {
                                 >
                                     <Grid item>
                                         <TextField
+                                            id='quick-search'
                                             label='Quick search'
-                                            onChange={event => onChangeTextField(event, 'quickSearch')}
+                                            onChange={event => onChangeTextField(event, 'quickSearch', 'string')}
                                             value={quickSearch}
                                         />
                                     </Grid>
                                     <Grid item>
                                         <TextField
                                             label='Number of foodtrucks'
-                                            onChange={event => onChangeTextField(event, 'foodTrucksNerby')}
+                                            onChange={event => onChangeTextField(event, 'foodTrucksNerby', 'number')}
                                             value={foodTrucksNerby}
                                         />
                                     </Grid>
@@ -132,21 +137,21 @@ class Wrapper extends React.Component {
                                     <Grid item>
                                         <TextField
                                             label='Latitude'
-                                            onChange={event => onChangeTextField(event, 'latitude')}
+                                            onChange={event => onChangeTextField(event, 'latitude', 'number')}
                                             value={latitude}
                                         />
                                     </Grid>
                                     <Grid item>
                                         <TextField
                                             label='Longitud'
-                                            onChange={event => onChangeTextField(event, 'longitude')}
+                                            onChange={event => onChangeTextField(event, 'longitude', 'number')}
                                             value={longitude}
                                         />
                                     </Grid>
                                     <Grid item>
                                         <Button
                                             color='primary'
-                                            onClick={this.setCurrentLatitude}
+                                            onClick={this.setCurrentLocation}
                                             variant='contained'
                                         >
                                             Set Current Location

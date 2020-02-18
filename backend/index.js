@@ -13,7 +13,7 @@ app.get('/api/food-truks', (req, res) => {
             return
         }
         data = await neatCsv(data)
-        res.send(data)
+        setTimeout(() => res.send(data), 5000)
     })
 })
 
